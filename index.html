@@ -2,98 +2,365 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Taller de Zapatería y Marroquinería</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OFERTA - Taller de Costura y Marroquinería</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; color: #333; background: #f4f4f4; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h1 { color: #2c3e50; text-align: center; }
-        h2 { color: #34495e; border-bottom: 2px solid #ecf0f1; padding-bottom: 5px; margin-top: 30px; }
-        .machine { margin-bottom: 25px; background: #fafafa; padding: 15px; border-radius: 6px; border: 1px solid #e1e1e1; }
-        .gallery { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; justify-content: center; }
-        .gallery img { width: 45%; max-height: 250px; border-radius: 4px; border: 1px solid #ddd; object-fit: cover; }
-        .highlight { background: #e8f4f8; padding: 15px; border-left: 4px solid #3498db; margin: 20px 0; border-radius: 4px; }
-        .footer { background: #2c3e50; color: white; padding: 20px; text-align: center; border-radius: 5px; margin-top: 30px; }
-        .btn { display: inline-block; padding: 12px 24px; margin: 10px; text-decoration: none; border-radius: 5px; font-weight: bold; color: white; }
-        .whatsapp { background-color: #25D366; }
-        .telegram { background-color: #0088cc; }
-        .btn:hover { opacity: 0.9; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== PANTALLA 1: INTRO DE IMPACTO ===== */
+        .intro {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 50%, #f39c12 100%);
+            padding: 20px;
+            position: relative;
+            animation: fadeIn 1s ease;
+        }
+
+        .intro h1 {
+            font-size: clamp(2.2rem, 9vw, 4rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 0 #000;
+            line-height: 1.1;
+            animation: pulse 1.5s ease infinite;
+        }
+
+        .intro .emoji {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            animation: bounce 1s ease infinite;
+        }
+
+        .intro .sub {
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            margin-top: 20px;
+            font-weight: bold;
+            background: #fff;
+            color: #c0392b;
+            padding: 10px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .intro .arrow {
+            position: absolute;
+            bottom: 30px;
+            font-size: 2.5rem;
+            animation: bounce 1s infinite;
+            color: #fff;
+        }
+
+        /* ===== PANTALLA 2: CARRUSEL DE FOTOS ===== */
+        .carrusel-section {
+            padding: 40px 20px;
+            background: #1a1a1a;
+        }
+
+        .carrusel-section h2 {
+            text-align: center;
+            font-size: clamp(1.5rem, 6vw, 2.2rem);
+            color: #f39c12;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .carrusel {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(243, 156, 18, 0.4);
+            background: #000;
+        }
+
+        .carrusel .slides {
+            display: flex;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .carrusel .slide {
+            min-width: 100%;
+            position: relative;
+            text-align: center;
+        }
+
+        .carrusel .slide img {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            background: #fff;
+            display: block;
+        }
+
+        .carrusel .slide .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: #fff;
+            padding: 30px 15px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .carrusel .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px;
+            background: #000;
+        }
+
+        .carrusel .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #555;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .carrusel .dot.active {
+            background: #f39c12;
+            transform: scale(1.3);
+        }
+
+        /* ===== INFO DESTACADA ===== */
+        .info {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .info .card {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            border-left: 5px solid #f39c12;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .info .card p {
+            margin: 8px 0;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .info .card strong {
+            color: #f39c12;
+        }
+
+        .precio {
+            text-align: center;
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
+        }
+
+        .precio .label {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.9;
+        }
+
+        .precio .monto {
+            font-size: clamp(2rem, 10vw, 3rem);
+            font-weight: 900;
+            margin-top: 5px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* ===== BOTONES DE CONTACTO ===== */
+        .contacto {
+            padding: 30px 20px 50px;
+            text-align: center;
+            background: #1a1a1a;
+        }
+
+        .contacto h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #f39c12;
+            text-transform: uppercase;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            max-width: 400px;
+            margin: 12px auto;
+            padding: 18px 25px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+
+        .btn-whatsapp { background: #25D366; }
+        .btn-email { background: #e74c3c; }
+
+        /* ===== ANIMACIONES ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Taller de Zapatería y Marroquinería (100% Operativo)</h1>
-        <p>Se pone a la venta por <strong>SUBASTA</strong> el lote completo de maquinaria industrial para taller de calzado y cuero. Todas las máquinas están 100% operativas y listas para trabajar desde el primer día. ¡No se venden por separado!</p>
-        
-        <h2>📦 El lote incluye:</h2>
-        
-        <div class="machine">
-            <h3>1. Máquina de coser Singer de Columna (Poste)</h3>
-            <p>Ideal para calzado, botas y bolsos con formas curvas. Costura perfecta alrededor de la horma.</p>
-            <div class="gallery">
-                <img src="fotos/maquina-1.jpg" alt="Máquina de Columna Singer">
-                <img src="fotos/maquina-2.jpg" alt="Detalle de la máquina de columna">
+
+    <!-- PANTALLA 1: IMPACTO INICIAL (5 segundos) -->
+    <section class="intro">
+        <div class="emoji">🔥👞🔥</div>
+        <h1>OFERTA<br>TALLER DE<br>COSTURA</h1>
+        <div class="sub">100% OPERATIVO</div>
+        <div class="arrow">⬇️</div>
+    </section>
+
+    <!-- PANTALLA 2: CARRUSEL DE FOTOS -->
+    <section class="carrusel-section">
+        <h2>📸 Conoce las Máquinas</h2>
+        <div class="carrusel">
+            <div class="slides" id="slides">
+                <div class="slide">
+                    <img src="fotos/maquina-1.jpg" alt="Máquina 1">
+                    <div class="caption">Singer de Columna (Poste)</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-2.jpg" alt="Máquina 2">
+                    <div class="caption">Singer de Columna - Detalle</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-3.jpg" alt="Máquina 3">
+                    <div class="caption">Máquina Plana Industrial</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-4.jpg" alt="Máquina 4">
+                    <div class="caption">Máquina Plana - Lateral</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-5.jpg" alt="Máquina 5">
+                    <div class="caption">Rebajadora de Cuero</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-6.jpg" alt="Máquina 6">
+                    <div class="caption">Rebajadora - Detalle</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-7.jpg" alt="Máquina 7">
+                    <div class="caption">Prensa / Taladro de Palanca</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-8.jpg" alt="Máquina 8">
+                    <div class="caption">Prensa de Pedal</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-9.jpg" alt="Máquina 9">
+                    <div class="caption">Vista General del Taller</div>
+                </div>
+                <div class="slide">
+                    <img src="fotos/maquina-10.jpg" alt="Máquina 10">
+                    <div class="caption">Estructura y Motor</div>
+                </div>
             </div>
+            <div class="indicators" id="indicators"></div>
+        </div>
+    </section>
+
+    <!-- PANTALLA 3: INFO DESTACADA -->
+    <section class="info">
+        <div class="precio">
+            <div class="label">Precio Inicial de Subasta</div>
+            <div class="monto">$1.000 USD</div>
+            <div style="font-size:0.9rem; margin-top:8px;">Lote completo 🔥</div>
         </div>
 
-        <div class="machine">
-            <h3>2. Máquina de coser Plana Industrial</h3>
-            <p>Perfecta para cuero, carteras, cinturones y costuras generales.</p>
-            <div class="gallery">
-                <img src="fotos/maquina-3.jpg" alt="Máquina Plana Industrial">
-                <img src="fotos/maquina-4.jpg" alt="Vista lateral de la máquina plana">
-            </div>
+        <div class="card">
+            <p>✅ <strong>Todo incluido:</strong> Mesas, estructuras, motores y accesorios.</p>
+            <p>📍 <strong>Ubicación:</strong> Caracas, Ciudad Tiuna.</p>
+            <p>❌ <strong>No se vende por separado.</strong></p>
+            <p>💵 <strong>Solo ofertas superiores a $1.000.</strong></p>
         </div>
+    </section>
 
-        <div class="machine">
-            <h3>3. Rebajadora de Cuero</h3>
-            <p>Esencial para afinar y adelgazar bordes, logrando acabados profesionales sin bultos.</p>
-            <div class="gallery">
-                <img src="fotos/maquina-5.jpg" alt="Rebajadora de Cuero con mesa">
-                <img src="fotos/maquina-6.jpg" alt="Detalle operativo de la rebajadora">
-            </div>
-        </div>
+    <!-- PANTALLA 4: CONTACTO -->
+    <section class="contacto">
+        <h3>📲 Contacta Ahora</h3>
+        <a href="https://wa.me/584266181621?text=Hola%20C%C3%A9sar%2C%20estoy%20interesado%20en%20el%20lote%20de%20maquinaria" class="btn btn-whatsapp" target="_blank">
+            💬 WhatsApp: 0426-618-1621
+        </a>
+        <a href="mailto:ontivero72@gmail.com" class="btn btn-email">
+            ✉️ ontivero72@gmail.com
+        </a>
+    </section>
 
-        <div class="machine">
-            <h3>4. Prensa / Taladro de Palanca</h3>
-            <p>Ideal para perforar y colocar remaches, broches y ojales.</p>
-            <div class="gallery">
-                <img src="fotos/maquina-7.jpg" alt="Prensa de pedal">
-                <img src="fotos/maquina-8.jpg" alt="Prensa de pedal verde">
-            </div>
-        </div>
+    <!-- SCRIPT DEL CARRUSEL -->
+    <script>
+        const slides = document.getElementById('slides');
+        const total = slides.children.length;
+        const indicators = document.getElementById('indicators');
+        let current = 0;
 
-        <div class="machine">
-            <h3>5. Estructura, Mesas y Motor</h3>
-            <p>Mesas de trabajo originales, estructuras de hierro, motores, pedales y accesorios instalados.</p>
-            <div class="gallery">
-                <img src="fotos/maquina-9.jpg" alt="Vista general del taller">
-                <img src="fotos/maquina-10.jpg" alt="Motor instalado">
-            </div>
-        </div>
+        // Crear indicadores
+        for (let i = 0; i < total; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            indicators.appendChild(dot);
+        }
 
-        <div class="highlight">
-            <p>🔥 <strong>Todo incluye:</strong> Mesas de trabajo originales, estructuras de hierro, motores, pedales y accesorios instalados.</p>
-            <p>📍 <strong>Ubicación:</strong> Caracas, Ciudad Tiuna (Entrega en sitio).</p>
-            <p>💰 <strong>Precio Inicial de Subasta:</strong> $1.000 USD (Incluye todo el lote completo).</p>
-            <p>❌ <strong>Condición:</strong> Venta exclusiva del lote completo (no se venden máquinas por separado).</p>
-        </div>
+        const dots = document.querySelectorAll('.dot');
 
-        <h2>Reglas de la subasta:</h2>
-        <p>Se aceptan ofertas únicamente por encima de los $1.000 USD. La mejor oferta se lleva el lote completo. ¡Aprovecha esta oportunidad única para montar tu taller!</p>
+        function goToSlide(index) {
+            current = index;
+            slides.style.transform = `translateX(-${current * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === current));
+        }
 
-        <div class="footer">
-            <h3>Contacto</h3>
-            <p><strong>César</strong></p>
-            <a href="https://wa.me/584266181621?text=Hola%20C%C3%A9sar%2C%20estoy%20interesado%20en%20el%20lote%20de%20maquinaria%20de%20zapater%C3%ADa" class="btn whatsapp" target="_blank">
-                💬 Contactar por WhatsApp
-            </a>
-            <br>
-            <a href="mailto:ontivero72@gmail.com" class="btn" style="background:#e74c3c;">
-                ✉️ Enviar Correo
-            </a>
-            <p style="margin-top:15px; font-size:14px;">WhatsApp: 0426-618-1621 | Correo: ontivero72@gmail.com</p>
-        </div>
-    </div>
+        // Auto avance cada 3.5 segundos
+        setInterval(() => {
+            goToSlide((current + 1) % total);
+        }, 3500);
+    </script>
+
 </body>
 </html>
