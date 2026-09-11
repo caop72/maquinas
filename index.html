@@ -142,6 +142,59 @@
             transform: scale(1.3);
         }
 
+        /* ===== NUEVA SECCIÓN: VIDEO DEMOSTRATIVO CON EFECTOS ===== */
+        .video-section {
+            padding: 40px 20px;
+            background: #111;
+            text-align: center;
+            border-top: 2px solid #f39c12;
+            border-bottom: 2px solid #f39c12;
+        }
+
+        .video-section h2 {
+            font-size: clamp(1.5rem, 6vw, 2.2rem);
+            color: #f39c12;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Contenedor con efectos especiales */
+        .video-wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(243, 156, 18, 0.6);
+            /* Efecto de zoom pulsante */
+            animation: videoZoom 3s ease-in-out infinite;
+            /* Resplandor animado */
+            border: 3px solid #f39c12;
+        }
+
+        .video-wrapper iframe {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            border: none;
+        }
+
+        /* Efecto de "escaneo" o brillo que pasa por encima */
+        .video-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            animation: shine 3s infinite;
+            pointer-events: none; /* No bloquea los clics en el video */
+        }
+
         /* ===== INFO DESTACADA ===== */
         .info {
             max-width: 500px;
@@ -321,6 +374,19 @@
             0%, 100% { box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4); }
             50% { box-shadow: 0 10px 40px rgba(243, 156, 18, 0.8); }
         }
+
+        /* Animación de zoom para el video */
+        @keyframes videoZoom {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Animación de brillo para el video */
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -383,6 +449,30 @@
         </div>
     </section>
 
+    <!-- NUEVA PANTALLA: VIDEO DEMOSTRATIVO CON EFECTOS -->
+    <section class="video-section">
+        <h2>🎥 Demostración en Vivo</h2>
+        <p style="margin-bottom: 20px; color: #ccc;">Mira la máquina en acción (reproducción en bucle)</p>
+        
+        <div class="video-wrapper">
+            <!-- 
+                He añadido &loop=1 para el bucle infinito.
+                He añadido &muted=1 para que pueda autoplay sin sonido.
+                El script de abajo controla la velocidad.
+            -->
+            <iframe 
+                id="videoDemostracion"
+                src="https://player.vimeo.com/video/1225400313?h=da33250a1a&loop=1&muted=1&autoplay=1" 
+                width="640" 
+                height="360" 
+                frameborder="0" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+    </section>
+
     <!-- PANTALLA 3: INFO DESTACADA -->
     <section class="info">
         <div class="precio">
@@ -435,10 +525,10 @@
         </a>
     </section>
 
-    <!-- SCRIPT DEL CARRUSEL Y CUENTA REGRESIVA -->
+    <!-- SCRIPT DEL CARRUSEL, CUENTA REGRESIVA Y VIDEO -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script>
         // ===== CUENTA REGRESIVA =====
-        // Fecha de cierre: 10 de Octubre 2026 a las 12:00 hrs (hora Venezuela UTC-4)
         const fechaCierre = new Date('2026-10-10T12:00:00-04:00').getTime();
 
         function actualizarCountdown() {
@@ -471,7 +561,6 @@
         const indicators = document.getElementById('indicators');
         let current = 0;
 
-        // Crear indicadores
         for (let i = 0; i < total; i++) {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -486,10 +575,26 @@
             dots.forEach((d, i) => d.classList.toggle('active', i === current));
         }
 
-        // Auto avance cada 3.5 segundos
         setInterval(() => {
             goToSlide((current + 1) % total);
         }, 3500);
+
+        // ===== CONTROL DEL VIDEO (VELOCIDAD 2X) =====
+        // Esperamos a que el reproductor de Vimeo esté listo para cambiar la velocidad
+        var iframe = document.getElementById('videoDemostracion');
+        var player = new Vimeo.Player(iframe);
+
+        player.ready().then(function() {
+            // Establece la velocidad al doble (2.0)
+            player.setPlaybackRate(2.0).catch(function(error) {
+                console.log('Error al establecer la velocidad:', error);
+            });
+            
+            // Aseguramos que se reproduzca (por si el autoplay falla)
+            player.play().catch(function(error) {
+                console.log('Autoplay bloqueado por el navegador:', error);
+            });
+        });
     </script>
 
 </body>
