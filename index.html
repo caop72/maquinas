@@ -619,7 +619,7 @@
             <div class="sparkles-container" id="sparklesContainer"></div>
             
             <div class="video-container">
-                <div class="speed-badge">⚡ 2X ⚡</div>
+                <div class="speed-badge">⚡ 6X ⚡</div>
                 <video id="videoPlayer" autoplay loop muted playsinline>
                     <source src="video 1.mp4" type="video/mp4">
                     Tu navegador no soporta la etiqueta de video.
@@ -746,33 +746,17 @@
         function createSparkle() {
             const sparkle = document.createElement('div');
             sparkle.className = 'sparkle';
-            
-            // Posición horizontal aleatoria
             sparkle.style.left = Math.random() * 100 + '%';
-            
-            // Duración aleatoria (entre 2 y 5 segundos)
             sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            
-            // Retardo aleatorio
             sparkle.style.animationDelay = Math.random() * 2 + 's';
-            
-            // Tamaño aleatorio
             const size = Math.random() * 6 + 3;
             sparkle.style.width = size + 'px';
             sparkle.style.height = size + 'px';
-            
             sparklesContainer.appendChild(sparkle);
-            
-            // Eliminar la chispa después de que termine su animación
-            setTimeout(() => {
-                sparkle.remove();
-            }, 7000);
+            setTimeout(() => { sparkle.remove(); }, 7000);
         }
 
-        // Crear chispas continuamente
         setInterval(createSparkle, 200);
-        
-        // Crear algunas chispas iniciales
         for (let i = 0; i < 15; i++) {
             setTimeout(createSparkle, i * 100);
         }
@@ -787,9 +771,15 @@
             'video 4.mp4'
         ];
 
-        // Forzar velocidad 2x al cargar el video
+        // ⚡⚡⚡ VELOCIDAD DEL VIDEO ⚡⚡⚡
+        // 2.0 = velocidad normal x2
+        // 4.0 = el doble de rápido
+        // 6.0 = el triple de rápido (ACTUAL)
+        const VELOCIDAD = 6.0;
+
+        // Forzar velocidad al cargar metadata
         videoPlayer.addEventListener('loadedmetadata', function() {
-            videoPlayer.playbackRate = 2.0;
+            videoPlayer.playbackRate = VELOCIDAD;
         });
 
         // Cambiar de video al hacer clic en los indicadores
@@ -800,14 +790,14 @@
                 
                 videoPlayer.src = videos[index];
                 videoPlayer.load();
-                videoPlayer.playbackRate = 2.0;
+                videoPlayer.playbackRate = VELOCIDAD;
                 videoPlayer.play().catch(function(error) {
                     console.log('Error al reproducir:', error);
                 });
             });
         });
 
-        // Auto-cambiar de video cada 12 segundos
+        // Auto-cambiar de video cada 10 segundos
         let currentVideo = 0;
         setInterval(() => {
             currentVideo = (currentVideo + 1) % videos.length;
@@ -816,16 +806,23 @@
             
             videoPlayer.src = videos[currentVideo];
             videoPlayer.load();
-            videoPlayer.playbackRate = 2.0;
+            videoPlayer.playbackRate = VELOCIDAD;
             videoPlayer.play().catch(function(error) {
                 console.log('Error al reproducir:', error);
             });
-        }, 12000);
+        }, 10000);
 
-        // Asegurar que la velocidad se mantenga en 2x al reproducir
+        // Asegurar que la velocidad se mantenga siempre
         videoPlayer.addEventListener('play', function() {
-            videoPlayer.playbackRate = 2.0;
+            videoPlayer.playbackRate = VELOCIDAD;
         });
+
+        // Refuerzo: verificar la velocidad cada 500ms
+        setInterval(() => {
+            if (videoPlayer.playbackRate !== VELOCIDAD) {
+                videoPlayer.playbackRate = VELOCIDAD;
+            }
+        }, 500);
     </script>
 
 </body>
