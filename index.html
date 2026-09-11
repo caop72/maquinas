@@ -142,57 +142,225 @@
             transform: scale(1.3);
         }
 
-        /* ===== NUEVA SECCIÓN: VIDEO DEMOSTRATIVO CON EFECTOS ===== */
+        /* ===== SECCIÓN DE VIDEO CON EFECTOS ESPECIALES ===== */
         .video-section {
-            padding: 40px 20px;
-            background: #111;
+            padding: 50px 20px;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
             text-align: center;
-            border-top: 2px solid #f39c12;
-            border-bottom: 2px solid #f39c12;
+            border-top: 3px solid #f39c12;
+            border-bottom: 3px solid #f39c12;
+            position: relative;
+            overflow: hidden;
         }
 
         .video-section h2 {
             font-size: clamp(1.5rem, 6vw, 2.2rem);
             color: #f39c12;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
+            animation: glowText 2s ease infinite;
+        }
+
+        .video-section .subtitle {
+            color: #ccc;
+            margin-bottom: 25px;
+            font-size: 0.95rem;
             letter-spacing: 1px;
         }
 
-        /* Contenedor con efectos especiales */
-        .video-wrapper {
-            max-width: 500px;
+        /* Contenedor del video con efectos */
+        .video-container-wrapper {
+            position: relative;
+            max-width: 520px;
             margin: 0 auto;
+        }
+
+        /* Partículas de chispas que caen */
+        .sparkles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 10;
+            border-radius: 15px;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #f39c12;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12;
+            animation: fall linear infinite;
+            opacity: 0;
+        }
+
+        .sparkle:nth-child(3n) {
+            background: #fff;
+            box-shadow: 0 0 10px #fff, 0 0 20px #f39c12;
+            width: 4px;
+            height: 4px;
+        }
+
+        .sparkle:nth-child(5n) {
+            background: #e74c3c;
+            box-shadow: 0 0 10px #e74c3c, 0 0 20px #e74c3c;
+            width: 5px;
+            height: 5px;
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0;
+                transform: translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                top: 110%;
+                opacity: 0;
+                transform: translateX(50px);
+            }
+        }
+
+        .video-container {
             position: relative;
             border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(243, 156, 18, 0.6);
-            /* Efecto de zoom pulsante */
-            animation: videoZoom 3s ease-in-out infinite;
-            /* Resplandor animado */
+            box-shadow: 
+                0 0 30px rgba(243, 156, 18, 0.8),
+                0 0 60px rgba(243, 156, 18, 0.4),
+                inset 0 0 20px rgba(243, 156, 18, 0.3);
             border: 3px solid #f39c12;
+            background: #000;
+            animation: videoGlow 3s ease-in-out infinite;
         }
 
-        .video-wrapper iframe {
+        @keyframes videoGlow {
+            0%, 100% {
+                box-shadow: 
+                    0 0 30px rgba(243, 156, 18, 0.8),
+                    0 0 60px rgba(243, 156, 18, 0.4);
+                border-color: #f39c12;
+            }
+            50% {
+                box-shadow: 
+                    0 0 50px rgba(243, 156, 18, 1),
+                    0 0 100px rgba(243, 156, 18, 0.6);
+                border-color: #f1c40f;
+            }
+        }
+
+        .video-container video {
             display: block;
             width: 100%;
             height: auto;
             aspect-ratio: 16 / 9;
-            border: none;
+            object-fit: cover;
         }
 
-        /* Efecto de "escaneo" o brillo que pasa por encima */
-        .video-wrapper::after {
+        /* Efecto de línea de escaneo */
+        .video-container::after {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
-            width: 50%;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #f39c12, #fff, #f39c12, transparent);
+            box-shadow: 0 0 20px #f39c12, 0 0 40px #f39c12;
+            animation: scanline 3s linear infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes scanline {
+            0% { top: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Flash/destello periódico */
+        .video-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-            animation: shine 3s infinite;
-            pointer-events: none; /* No bloquea los clics en el video */
+            background: radial-gradient(circle, rgba(243, 156, 18, 0.4) 0%, transparent 70%);
+            animation: flash 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        @keyframes flash {
+            0%, 90%, 100% { opacity: 0; }
+            95% { opacity: 0.8; }
+        }
+
+        /* Indicadores de video */
+        .video-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 25px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .video-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #444;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .video-dot.active {
+            background: #f39c12;
+            transform: scale(1.4);
+            box-shadow: 0 0 15px #f39c12, 0 0 30px #f39c12;
+            border-color: #fff;
+            animation: dotPulse 1.5s ease infinite;
+        }
+
+        @keyframes dotPulse {
+            0%, 100% { box-shadow: 0 0 15px #f39c12, 0 0 30px #f39c12; }
+            50% { box-shadow: 0 0 25px #f39c12, 0 0 50px #f39c12; }
+        }
+
+        /* Etiqueta de velocidad */
+        .speed-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #c0392b, #e74c3c);
+            color: #fff;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
+            z-index: 15;
+            animation: pulse 1.5s ease infinite;
+            text-transform: uppercase;
         }
 
         /* ===== INFO DESTACADA ===== */
@@ -375,17 +543,9 @@
             50% { box-shadow: 0 10px 40px rgba(243, 156, 18, 0.8); }
         }
 
-        /* Animación de zoom para el video */
-        @keyframes videoZoom {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* Animación de brillo para el video */
-        @keyframes shine {
-            0% { left: -100%; }
-            20% { left: 100%; }
-            100% { left: 100%; }
+        @keyframes glowText {
+            0%, 100% { text-shadow: 0 0 20px rgba(243, 156, 18, 0.8); }
+            50% { text-shadow: 0 0 30px rgba(243, 156, 18, 1), 0 0 50px rgba(243, 156, 18, 0.8); }
         }
     </style>
 </head>
@@ -449,27 +609,29 @@
         </div>
     </section>
 
-    <!-- NUEVA PANTALLA: VIDEO DEMOSTRATIVO CON EFECTOS -->
+    <!-- SECCIÓN DE VIDEO CON EFECTOS ESPECIALES -->
     <section class="video-section">
         <h2>🎥 Demostración en Vivo</h2>
-        <p style="margin-bottom: 20px; color: #ccc;">Mira la máquina en acción (reproducción en bucle)</p>
+        <p class="subtitle">⚡ Mira la rapidez y potencia de las máquinas ⚡</p>
         
-        <div class="video-wrapper">
-            <!-- 
-                He añadido &loop=1 para el bucle infinito.
-                He añadido &muted=1 para que pueda autoplay sin sonido.
-                El script de abajo controla la velocidad.
-            -->
-            <iframe 
-                id="videoDemostracion"
-                src="https://player.vimeo.com/video/1225400313?h=da33250a1a&loop=1&muted=1&autoplay=1" 
-                width="640" 
-                height="360" 
-                frameborder="0" 
-                referrerpolicy="strict-origin-when-cross-origin" 
-                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                allowfullscreen>
-            </iframe>
+        <div class="video-container-wrapper">
+            <!-- Contenedor de chispas -->
+            <div class="sparkles-container" id="sparklesContainer"></div>
+            
+            <div class="video-container">
+                <div class="speed-badge">⚡ 2X ⚡</div>
+                <video id="videoPlayer" autoplay loop muted playsinline>
+                    <source src="video 1.mp4" type="video/mp4">
+                    Tu navegador no soporta la etiqueta de video.
+                </video>
+            </div>
+        </div>
+
+        <div class="video-indicators" id="videoIndicators">
+            <div class="video-dot active" data-video="video 1.mp4"></div>
+            <div class="video-dot" data-video="video 2.mp4"></div>
+            <div class="video-dot" data-video="video 3.mp4"></div>
+            <div class="video-dot" data-video="video 4.mp4"></div>
         </div>
     </section>
 
@@ -525,8 +687,7 @@
         </a>
     </section>
 
-    <!-- SCRIPT DEL CARRUSEL, CUENTA REGRESIVA Y VIDEO -->
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    <!-- SCRIPT DEL CARRUSEL, CUENTA REGRESIVA, VIDEO Y EFECTOS -->
     <script>
         // ===== CUENTA REGRESIVA =====
         const fechaCierre = new Date('2026-10-10T12:00:00-04:00').getTime();
@@ -579,21 +740,91 @@
             goToSlide((current + 1) % total);
         }, 3500);
 
-        // ===== CONTROL DEL VIDEO (VELOCIDAD 2X) =====
-        // Esperamos a que el reproductor de Vimeo esté listo para cambiar la velocidad
-        var iframe = document.getElementById('videoDemostracion');
-        var player = new Vimeo.Player(iframe);
-
-        player.ready().then(function() {
-            // Establece la velocidad al doble (2.0)
-            player.setPlaybackRate(2.0).catch(function(error) {
-                console.log('Error al establecer la velocidad:', error);
-            });
+        // ===== GENERADOR DE CHISPAS/LUCECITAS =====
+        const sparklesContainer = document.getElementById('sparklesContainer');
+        
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
             
-            // Aseguramos que se reproduzca (por si el autoplay falla)
-            player.play().catch(function(error) {
-                console.log('Autoplay bloqueado por el navegador:', error);
+            // Posición horizontal aleatoria
+            sparkle.style.left = Math.random() * 100 + '%';
+            
+            // Duración aleatoria (entre 2 y 5 segundos)
+            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            
+            // Retardo aleatorio
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            
+            // Tamaño aleatorio
+            const size = Math.random() * 6 + 3;
+            sparkle.style.width = size + 'px';
+            sparkle.style.height = size + 'px';
+            
+            sparklesContainer.appendChild(sparkle);
+            
+            // Eliminar la chispa después de que termine su animación
+            setTimeout(() => {
+                sparkle.remove();
+            }, 7000);
+        }
+
+        // Crear chispas continuamente
+        setInterval(createSparkle, 200);
+        
+        // Crear algunas chispas iniciales
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createSparkle, i * 100);
+        }
+
+        // ===== CONTROL DEL VIDEO LOCAL =====
+        const videoPlayer = document.getElementById('videoPlayer');
+        const videoDots = document.querySelectorAll('.video-dot');
+        const videos = [
+            'video 1.mp4',
+            'video 2.mp4',
+            'video 3.mp4',
+            'video 4.mp4'
+        ];
+
+        // Forzar velocidad 2x al cargar el video
+        videoPlayer.addEventListener('loadedmetadata', function() {
+            videoPlayer.playbackRate = 2.0;
+        });
+
+        // Cambiar de video al hacer clic en los indicadores
+        videoDots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                videoDots.forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+                
+                videoPlayer.src = videos[index];
+                videoPlayer.load();
+                videoPlayer.playbackRate = 2.0;
+                videoPlayer.play().catch(function(error) {
+                    console.log('Error al reproducir:', error);
+                });
             });
+        });
+
+        // Auto-cambiar de video cada 12 segundos
+        let currentVideo = 0;
+        setInterval(() => {
+            currentVideo = (currentVideo + 1) % videos.length;
+            videoDots.forEach(d => d.classList.remove('active'));
+            videoDots[currentVideo].classList.add('active');
+            
+            videoPlayer.src = videos[currentVideo];
+            videoPlayer.load();
+            videoPlayer.playbackRate = 2.0;
+            videoPlayer.play().catch(function(error) {
+                console.log('Error al reproducir:', error);
+            });
+        }, 12000);
+
+        // Asegurar que la velocidad se mantenga en 2x al reproducir
+        videoPlayer.addEventListener('play', function() {
+            videoPlayer.playbackRate = 2.0;
         });
     </script>
 
