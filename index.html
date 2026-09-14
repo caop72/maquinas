@@ -6,262 +6,270 @@
     <title>OFERTA - Taller de Costura y Marroquinería</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #1a1a1a;
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
+
+        :root {
+            --azul-profundo: #0a1128;
+            --azul-medio: #1c2e5c;
+            --azul-claro: #3d5a99;
+            --dorado: #d4af37;
+            --dorado-claro: #f0d97a;
+            --blanco-humo: #f5f5f7;
         }
 
-        /* ===== PANTALLA 1: INTRO DE IMPACTO ===== */
-        .intro {
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--azul-profundo);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* ===== CARRUSEL VERTICAL DESLIZABLE (PANTALLAS) ===== */
+        .pantallas {
             height: 100vh;
+            overflow-y: auto;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .pantallas::-webkit-scrollbar { display: none; }
+
+        .pantalla {
+            min-height: 100vh;
+            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 50%, #f39c12 100%);
-            padding: 20px;
+            padding: 40px 20px;
             position: relative;
-            animation: fadeIn 1s ease;
         }
 
-        .intro h1 {
-            font-size: clamp(2.2rem, 9vw, 4rem);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 0 #000;
-            line-height: 1.1;
-            animation: pulse 1.5s ease infinite;
+        /* ===== PANTALLA 1: INTRO DE IMPACTO ===== */
+        .intro {
+            background: radial-gradient(circle at 50% 40%, #1c2e5c 0%, #0a1128 70%);
+            text-align: center;
+            overflow: hidden;
+        }
+        .intro::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.12), transparent 40%),
+                radial-gradient(circle at 70% 70%, rgba(61, 90, 153, 0.15), transparent 40%);
+            animation: slowRotate 30s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes slowRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .intro .emoji {
             font-size: 4rem;
-            margin-bottom: 15px;
-            animation: bounce 1s ease infinite;
+            margin-bottom: 20px;
+            animation: bounce 1.5s ease infinite;
+            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
         }
-
+        .intro h1 {
+            font-size: clamp(2.2rem, 9vw, 4.2rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, var(--dorado-claro) 50%, var(--dorado) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 4px 20px rgba(212, 175, 55, 0.3));
+            animation: shine 3s ease infinite;
+            position: relative;
+            z-index: 2;
+        }
+        @keyframes shine {
+            0%, 100% { filter: drop-shadow(0 4px 20px rgba(212, 175, 55, 0.3)); }
+            50% { filter: drop-shadow(0 4px 30px rgba(212, 175, 55, 0.6)); }
+        }
         .intro .sub {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            margin-top: 20px;
-            font-weight: bold;
-            background: #fff;
-            color: #c0392b;
-            padding: 10px 25px;
+            font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+            margin-top: 25px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: var(--dorado-claro);
+            border: 1px solid var(--dorado);
+            padding: 12px 30px;
             border-radius: 50px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: rgba(212, 175, 55, 0.08);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
         }
-
         .intro .arrow {
-            position: absolute;
-            bottom: 30px;
-            font-size: 2.5rem;
-            animation: bounce 1s infinite;
-            color: #fff;
+            margin-top: 60px;
+            font-size: 2rem;
+            animation: bounce 1.5s infinite;
+            color: var(--dorado);
+            position: relative;
+            z-index: 2;
         }
 
         /* ===== PANTALLA 2: CARRUSEL DE FOTOS ===== */
         .carrusel-section {
-            padding: 40px 20px;
-            background: #1a1a1a;
+            background: linear-gradient(180deg, #0a1128 0%, #10193a 100%);
         }
-
         .carrusel-section h2 {
             text-align: center;
-            font-size: clamp(1.5rem, 6vw, 2.2rem);
-            color: #f39c12;
+            font-size: clamp(1.4rem, 5.5vw, 2rem);
+            color: var(--dorado-claro);
             margin-bottom: 25px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-weight: 700;
         }
-
         .carrusel {
+            width: 100%;
             max-width: 500px;
-            margin: 0 auto;
             position: relative;
-            border-radius: 15px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 10px 40px rgba(243, 156, 18, 0.4);
+            box-shadow:
+                0 20px 50px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 175, 55, 0.25);
             background: #000;
         }
-
         .carrusel .slides {
             display: flex;
-            transition: transform 0.8s ease-in-out;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         .carrusel .slide {
             min-width: 100%;
             position: relative;
             text-align: center;
         }
-
         .carrusel .slide img {
             width: 100%;
-            height: 400px;
+            height: 380px;
             object-fit: contain;
-            background: #fff;
+            background: var(--blanco-humo);
             display: block;
         }
-
         .carrusel .slide .caption {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            background: linear-gradient(transparent, rgba(10, 17, 40, 0.95));
             color: #fff;
-            padding: 30px 15px 15px;
+            padding: 35px 15px 18px;
             font-size: 1rem;
-            font-weight: bold;
+            font-weight: 600;
             text-align: center;
+            letter-spacing: 0.5px;
         }
-
         .carrusel .indicators {
             display: flex;
             justify-content: center;
             gap: 8px;
-            padding: 15px;
-            background: #000;
+            padding: 16px;
+            background: #0a1128;
         }
-
         .carrusel .dot {
-            width: 10px;
-            height: 10px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #555;
-            transition: background 0.3s, transform 0.3s;
+            background: #3a4a6b;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
         }
-
         .carrusel .dot.active {
-            background: #f39c12;
-            transform: scale(1.3);
+            background: var(--dorado);
+            width: 24px;
+            border-radius: 4px;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
         }
 
-        /* ===== SECCIÓN DE VIDEO CON EFECTOS ESPECIALES ===== */
+        /* ===== PANTALLA 3: VIDEO CON EFECTOS ===== */
         .video-section {
-            padding: 50px 20px;
-            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+            background: radial-gradient(circle at center, #10193a 0%, #05091a 100%);
             text-align: center;
-            border-top: 3px solid #f39c12;
-            border-bottom: 3px solid #f39c12;
-            position: relative;
             overflow: hidden;
         }
-
         .video-section h2 {
-            font-size: clamp(1.5rem, 6vw, 2.2rem);
-            color: #f39c12;
+            font-size: clamp(1.4rem, 5.5vw, 2rem);
+            color: var(--dorado-claro);
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            text-shadow: 0 0 20px rgba(243, 156, 18, 0.8);
-            animation: glowText 2s ease infinite;
+            font-weight: 700;
         }
-
         .video-section .subtitle {
-            color: #ccc;
+            color: #8fa3c9;
             margin-bottom: 25px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             letter-spacing: 1px;
         }
-
-        /* Contenedor del video con efectos */
         .video-container-wrapper {
             position: relative;
             max-width: 520px;
+            width: 100%;
             margin: 0 auto;
         }
-
-        /* Partículas de chispas que caen */
         .sparkles-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             pointer-events: none;
             overflow: hidden;
             z-index: 10;
-            border-radius: 15px;
+            border-radius: 18px;
         }
-
         .sparkle {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: #f39c12;
+            width: 4px; height: 4px;
+            background: var(--dorado-claro);
             border-radius: 50%;
-            box-shadow: 0 0 10px #f39c12, 0 0 20px #f39c12;
+            box-shadow: 0 0 8px var(--dorado), 0 0 16px var(--dorado);
             animation: fall linear infinite;
             opacity: 0;
         }
-
         .sparkle:nth-child(3n) {
             background: #fff;
-            box-shadow: 0 0 10px #fff, 0 0 20px #f39c12;
-            width: 4px;
-            height: 4px;
+            box-shadow: 0 0 8px #fff, 0 0 16px var(--dorado);
         }
-
-        .sparkle:nth-child(5n) {
-            background: #e74c3c;
-            box-shadow: 0 0 10px #e74c3c, 0 0 20px #e74c3c;
-            width: 5px;
-            height: 5px;
-        }
-
         @keyframes fall {
-            0% {
-                top: -10%;
-                opacity: 0;
-                transform: translateX(0);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                top: 110%;
-                opacity: 0;
-                transform: translateX(50px);
-            }
+            0% { top: -10%; opacity: 0; transform: translateX(0); }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; transform: translateX(30px); }
         }
-
         .video-container {
             position: relative;
-            border-radius: 15px;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 
-                0 0 30px rgba(243, 156, 18, 0.8),
-                0 0 60px rgba(243, 156, 18, 0.4),
-                inset 0 0 20px rgba(243, 156, 18, 0.3);
-            border: 3px solid #f39c12;
+            border: 2px solid rgba(212, 175, 55, 0.5);
             background: #000;
-            animation: videoGlow 3s ease-in-out infinite;
+            box-shadow:
+                0 0 30px rgba(212, 175, 55, 0.25),
+                0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: videoGlow 4s ease-in-out infinite;
         }
-
         @keyframes videoGlow {
             0%, 100% {
-                box-shadow: 
-                    0 0 30px rgba(243, 156, 18, 0.8),
-                    0 0 60px rgba(243, 156, 18, 0.4);
-                border-color: #f39c12;
+                box-shadow:
+                    0 0 25px rgba(212, 175, 55, 0.2),
+                    0 20px 50px rgba(0, 0, 0, 0.5);
             }
             50% {
-                box-shadow: 
-                    0 0 50px rgba(243, 156, 18, 1),
-                    0 0 100px rgba(243, 156, 18, 0.6);
-                border-color: #f1c40f;
+                box-shadow:
+                    0 0 45px rgba(212, 175, 55, 0.45),
+                    0 20px 50px rgba(0, 0, 0, 0.5);
             }
         }
-
         .video-container video {
             display: block;
             width: 100%;
@@ -269,450 +277,397 @@
             aspect-ratio: 16 / 9;
             object-fit: cover;
         }
-
-        /* Efecto de línea de escaneo */
-        .video-container::after {
-            content: '';
+        .speed-badge {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #f39c12, #fff, #f39c12, transparent);
-            box-shadow: 0 0 20px #f39c12, 0 0 40px #f39c12;
-            animation: scanline 3s linear infinite;
-            pointer-events: none;
-            z-index: 5;
+            top: 15px; right: 15px;
+            background: rgba(10, 17, 40, 0.85);
+            backdrop-filter: blur(10px);
+            color: var(--dorado-claro);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            z-index: 15;
         }
-
-        @keyframes scanline {
-            0% { top: 0; opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { top: 100%; opacity: 0; }
-        }
-
-        /* Flash/destello periódico */
-        .video-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(243, 156, 18, 0.4) 0%, transparent 70%);
-            animation: flash 4s ease-in-out infinite;
-            pointer-events: none;
-            z-index: 4;
-        }
-
-        @keyframes flash {
-            0%, 90%, 100% { opacity: 0; }
-            95% { opacity: 0.8; }
-        }
-
-        /* Indicadores de video */
         .video-indicators {
             display: flex;
             justify-content: center;
             gap: 12px;
-            margin-top: 25px;
-            position: relative;
-            z-index: 10;
+            margin-top: 28px;
         }
-
         .video-dot {
-            width: 14px;
-            height: 14px;
+            width: 10px; height: 10px;
             border-radius: 50%;
-            background: #444;
+            background: #3a4a6b;
             cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid transparent;
-            position: relative;
+            border: none;
         }
-
         .video-dot.active {
-            background: #f39c12;
-            transform: scale(1.4);
-            box-shadow: 0 0 15px #f39c12, 0 0 30px #f39c12;
-            border-color: #fff;
-            animation: dotPulse 1.5s ease infinite;
+            background: var(--dorado);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
+            transform: scale(1.2);
         }
 
-        @keyframes dotPulse {
-            0%, 100% { box-shadow: 0 0 15px #f39c12, 0 0 30px #f39c12; }
-            50% { box-shadow: 0 0 25px #f39c12, 0 0 50px #f39c12; }
+        /* ===== PANTALLA 4: PRECIO Y CUENTA REGRESIVA ===== */
+        .precio-info {
+            background: linear-gradient(180deg, #05091a 0%, #0a1128 100%);
+            text-align: center;
         }
-
-        /* Etiqueta de velocidad */
-        .speed-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
-            color: #fff;
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(231, 76, 60, 0.8);
-            z-index: 15;
-            animation: pulse 1.5s ease infinite;
-            text-transform: uppercase;
-        }
-
-        /* ===== INFO DESTACADA ===== */
-        .info {
+        .precio-info-inner {
             max-width: 500px;
-            margin: 30px auto;
-            padding: 0 20px;
+            width: 100%;
         }
-
-        .info .card {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            border-left: 5px solid #f39c12;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .info .card p {
-            margin: 8px 0;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
-        .info .card strong {
-            color: #f39c12;
-        }
-
         .precio {
-            text-align: center;
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
-            padding: 25px;
-            border-radius: 15px;
-            margin: 25px 0;
-            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
+            background: linear-gradient(135deg, #1c2e5c 0%, #0a1128 100%);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            padding: 30px 25px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            box-shadow:
+                0 15px 40px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
         }
-
+        .precio::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--dorado), transparent);
+        }
         .precio .label {
-            font-size: 1rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.9;
+            letter-spacing: 3px;
+            color: #8fa3c9;
+            margin-bottom: 10px;
         }
-
         .precio .monto {
-            font-size: clamp(2rem, 10vw, 3rem);
+            font-size: clamp(2.4rem, 11vw, 3.5rem);
             font-weight: 900;
-            margin-top: 5px;
-            text-shadow: 2px 2px 0 #000;
+            background: linear-gradient(135deg, #ffffff 0%, var(--dorado-claro) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            letter-spacing: -1px;
+        }
+        .precio .sub-note {
+            font-size: 0.85rem;
+            margin-top: 12px;
+            color: #8fa3c9;
+            letter-spacing: 1px;
         }
 
-        /* ===== CUENTA REGRESIVA ===== */
         .countdown-container {
-            background: linear-gradient(135deg, #000, #1a1a1a);
-            border: 3px solid #f39c12;
-            border-radius: 15px;
-            padding: 25px 15px;
-            margin: 25px 0;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
-            animation: glow 2s ease infinite;
+            background: linear-gradient(135deg, #0a1128, #10193a);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 18px;
+            padding: 25px 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
-
         .countdown-title {
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: #f39c12;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--dorado-claro);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 8px;
         }
-
         .countdown-date {
-            font-size: 0.95rem;
-            color: #fff;
-            margin-bottom: 20px;
-            opacity: 0.9;
+            font-size: 0.85rem;
+            color: #8fa3c9;
+            margin-bottom: 22px;
+            letter-spacing: 0.5px;
         }
-
         .countdown {
             display: flex;
             justify-content: center;
             gap: 8px;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
             flex-wrap: wrap;
         }
-
         .countdown-box {
-            background: linear-gradient(135deg, #c0392b, #e74c3c);
-            border-radius: 10px;
+            background: rgba(28, 46, 92, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px;
             padding: 12px 8px;
-            min-width: 65px;
+            min-width: 66px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            backdrop-filter: blur(5px);
         }
-
         .countdown-box span {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 900;
             color: #fff;
             line-height: 1;
-            text-shadow: 2px 2px 0 #000;
+            letter-spacing: -1px;
         }
-
         .countdown-box small {
-            font-size: 0.7rem;
-            color: #fff;
+            font-size: 0.65rem;
+            color: var(--dorado-claro);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 5px;
-            opacity: 0.9;
+            letter-spacing: 1.5px;
+            margin-top: 6px;
         }
-
         .countdown-urgent {
-            font-size: 1rem;
-            color: #f39c12;
-            font-weight: bold;
-            animation: pulse 1.5s ease infinite;
+            font-size: 0.9rem;
+            color: var(--dorado-claro);
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: pulse 2s ease infinite;
         }
 
-        /* ===== BOTONES DE CONTACTO ===== */
+        .info-card {
+            background: rgba(28, 46, 92, 0.35);
+            border-left: 3px solid var(--dorado);
+            padding: 20px 22px;
+            border-radius: 12px;
+            text-align: left;
+            backdrop-filter: blur(10px);
+        }
+        .info-card p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            line-height: 1.55;
+            color: #d6ddef;
+        }
+        .info-card strong { color: var(--dorado-claro); font-weight: 700; }
+
+        /* ===== PANTALLA 5: CONTACTO ===== */
         .contacto {
-            padding: 30px 20px 50px;
+            background: radial-gradient(circle at 50% 50%, #10193a 0%, #05091a 100%);
             text-align: center;
-            background: #1a1a1a;
         }
-
         .contacto h3 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            color: #f39c12;
+            font-size: 1.4rem;
+            margin-bottom: 30px;
+            color: var(--dorado-claro);
             text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
         }
-
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             max-width: 400px;
-            margin: 12px auto;
+            width: 100%;
+            margin: 14px auto;
             padding: 18px 25px;
             text-decoration: none;
             color: #fff;
-            font-weight: bold;
-            font-size: 1.1rem;
+            font-weight: 700;
+            font-size: 1rem;
             border-radius: 50px;
-            transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            border: 1px solid transparent;
         }
-
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+        .btn-whatsapp {
+            background: #1e8e4a;
+            box-shadow: 0 8px 25px rgba(30, 142, 74, 0.35);
+        }
+        .btn-whatsapp:hover {
+            background: #25a857;
+        }
+        .btn-email {
+            background: transparent;
+            border: 1.5px solid var(--dorado);
+            color: var(--dorado-claro);
+        }
+        .btn-email:hover {
+            background: rgba(212, 175, 55, 0.1);
         }
 
-        .btn-whatsapp { background: #25D366; }
-        .btn-email { background: #e74c3c; }
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: #5a6b8a;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ===== INDICADORES DE PANTALLA (puntos laterales) ===== */
+        .screen-dots {
+            position: fixed;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+        .screen-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            padding: 0;
+        }
+        .screen-dot.active {
+            background: var(--dorado);
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.8);
+            transform: scale(1.3);
+        }
 
         /* ===== ANIMACIONES ===== */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.03); opacity: 0.85; }
         }
-
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
+            50% { transform: translateY(-12px); }
         }
 
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4); }
-            50% { box-shadow: 0 10px 40px rgba(243, 156, 18, 0.8); }
-        }
-
-        @keyframes glowText {
-            0%, 100% { text-shadow: 0 0 20px rgba(243, 156, 18, 0.8); }
-            50% { text-shadow: 0 0 30px rgba(243, 156, 18, 1), 0 0 50px rgba(243, 156, 18, 0.8); }
+        @media (max-width: 500px) {
+            .carrusel .slide img { height: 280px; }
+            .screen-dots { right: 8px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- PANTALLA 1: IMPACTO INICIAL -->
-    <section class="intro">
-        <div class="emoji">🔥👞🔥</div>
-        <h1>OFERTA<br>TALLER DE<br>COSTURA</h1>
-        <div class="sub">100% OPERATIVO</div>
-        <div class="arrow">⬇️</div>
-    </section>
+    <!-- INDICADORES LATERALES DE PANTALLA -->
+    <div class="screen-dots" id="screenDots">
+        <button class="screen-dot active" data-index="0" aria-label="Pantalla 1"></button>
+        <button class="screen-dot" data-index="1" aria-label="Pantalla 2"></button>
+        <button class="screen-dot" data-index="2" aria-label="Pantalla 3"></button>
+        <button class="screen-dot" data-index="3" aria-label="Pantalla 4"></button>
+        <button class="screen-dot" data-index="4" aria-label="Pantalla 5"></button>
+    </div>
 
-    <!-- PANTALLA 2: CARRUSEL DE FOTOS -->
-    <section class="carrusel-section">
-        <h2>📸 Conoce las Máquinas</h2>
-        <div class="carrusel">
-            <div class="slides" id="slides">
-                <div class="slide">
-                    <img src="fotos/maquina-1.jpg" alt="Máquina Singer de Columna">
-                    <div class="caption">1. Singer de Columna (Poste)</div>
+    <!-- CONTENEDOR DE PANTALLAS DESLIZABLES -->
+    <div class="pantallas" id="pantallas">
+
+        <!-- PANTALLA 1: INTRO -->
+        <section class="pantalla intro">
+            <div class="emoji">🔥👞🔥</div>
+            <h1>OFERTA<br>TALLER DE<br>COSTURA</h1>
+            <div class="sub">100% OPERATIVO</div>
+            <div class="arrow">⬇️ Desliza</div>
+        </section>
+
+        <!-- PANTALLA 2: CARRUSEL DE FOTOS -->
+        <section class="pantalla carrusel-section">
+            <h2>📸 Conoce las Máquinas</h2>
+            <div class="carrusel">
+                <div class="slides" id="slides">
+                    <div class="slide"><img src="fotos/maquina-1.jpg" alt="Máquina 1"><div class="caption">1. Singer de Columna (Poste)</div></div>
+                    <div class="slide"><img src="fotos/maquina-2.jpg" alt="Máquina 2"><div class="caption">1. Singer de Columna - Vista Frontal</div></div>
+                    <div class="slide"><img src="fotos/maquina-3.jpg" alt="Máquina 3"><div class="caption">2. Singer Plana Industrial</div></div>
+                    <div class="slide"><img src="fotos/maquina-4.jpg" alt="Máquina 4"><div class="caption">2. Singer Plana - Vista Frontal</div></div>
+                    <div class="slide"><img src="fotos/maquina-5.jpg" alt="Máquina 5"><div class="caption">3. Rebajadora de Cuero</div></div>
+                    <div class="slide"><img src="fotos/maquina-6.jpg" alt="Máquina 6"><div class="caption">3. Rebajadora - Manivela</div></div>
+                    <div class="slide"><img src="fotos/maquina-7.jpg" alt="Máquina 7"><div class="caption">4. Taladro / Prensa de Mano</div></div>
+                    <div class="slide"><img src="fotos/maquina-8.jpg" alt="Máquina 8"><div class="caption">5. Prensa de Pedal Grande</div></div>
+                    <div class="slide"><img src="fotos/maquina-9.jpg" alt="Máquina 9"><div class="caption">6. Mesa, Estructura y Motor</div></div>
+                    <div class="slide"><img src="fotos/maquina-10.jpg" alt="Máquina 10"><div class="caption">7. Vista General del Taller</div></div>
                 </div>
-                <div class="slide">
-                    <img src="fotos/maquina-2.jpg" alt="Singer de Columna detalle">
-                    <div class="caption">1. Singer de Columna - Vista Frontal</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-3.jpg" alt="Máquina Plana Industrial">
-                    <div class="caption">2. Singer Plana Industrial</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-4.jpg" alt="Singer Plana frontal">
-                    <div class="caption">2. Singer Plana - Vista Frontal</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-5.jpg" alt="Rebajadora de Cuero">
-                    <div class="caption">3. Rebajadora de Cuero</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-6.jpg" alt="Rebajadora detalle">
-                    <div class="caption">3. Rebajadora - Manivela</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-7.jpg" alt="Taladro de mano">
-                    <div class="caption">4. Taladro / Prensa de Mano</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-8.jpg" alt="Prensa de pedal grande">
-                    <div class="caption">5. Prensa de Pedal Grande</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-9.jpg" alt="Mesa con motor">
-                    <div class="caption">6. Mesa, Estructura y Motor</div>
-                </div>
-                <div class="slide">
-                    <img src="fotos/maquina-10.jpg" alt="Vista general del taller">
-                    <div class="caption">7. Vista General del Taller</div>
+                <div class="indicators" id="indicators"></div>
+            </div>
+        </section>
+
+        <!-- PANTALLA 3: VIDEO -->
+        <section class="pantalla video-section">
+            <h2>🎥 Demostración en Vivo</h2>
+            <p class="subtitle">⚡ Mira la rapidez y potencia de las máquinas ⚡</p>
+            <div class="video-container-wrapper">
+                <div class="sparkles-container" id="sparklesContainer"></div>
+                <div class="video-container">
+                    <div class="speed-badge">⚡ 6X ⚡</div>
+                    <video id="videoPlayer" autoplay loop muted playsinline>
+                        <source src="video 1.mp4" type="video/mp4">
+                    </video>
                 </div>
             </div>
-            <div class="indicators" id="indicators"></div>
-        </div>
-    </section>
-
-    <!-- SECCIÓN DE VIDEO CON EFECTOS ESPECIALES -->
-    <section class="video-section">
-        <h2>🎥 Demostración en Vivo</h2>
-        <p class="subtitle">⚡ Mira la rapidez y potencia de las máquinas ⚡</p>
-        
-        <div class="video-container-wrapper">
-            <!-- Contenedor de chispas -->
-            <div class="sparkles-container" id="sparklesContainer"></div>
-            
-            <div class="video-container">
-                <div class="speed-badge">⚡ 6X ⚡</div>
-                <video id="videoPlayer" autoplay loop muted playsinline>
-                    <source src="video 1.mp4" type="video/mp4">
-                    Tu navegador no soporta la etiqueta de video.
-                </video>
+            <div class="video-indicators" id="videoIndicators">
+                <div class="video-dot active" data-video="video 1.mp4"></div>
+                <div class="video-dot" data-video="video 2.mp4"></div>
+                <div class="video-dot" data-video="video 3.mp4"></div>
+                <div class="video-dot" data-video="video 4.mp4"></div>
             </div>
-        </div>
+        </section>
 
-        <div class="video-indicators" id="videoIndicators">
-            <div class="video-dot active" data-video="video 1.mp4"></div>
-            <div class="video-dot" data-video="video 2.mp4"></div>
-            <div class="video-dot" data-video="video 3.mp4"></div>
-            <div class="video-dot" data-video="video 4.mp4"></div>
-        </div>
-    </section>
+        <!-- PANTALLA 4: PRECIO + CUENTA REGRESIVA -->
+        <section class="pantalla precio-info">
+            <div class="precio-info-inner">
+                <div class="precio">
+                    <div class="label">Precio Inicial de Subasta</div>
+                    <div class="monto">$2.000 USD</div>
+                    <div class="sub-note">Lote completo 🔥</div>
+                </div>
 
-    <!-- PANTALLA 3: INFO DESTACADA -->
-    <section class="info">
-        <div class="precio">
-            <div class="label">Precio Inicial de Subasta</div>
-            <div class="monto">$1.000 USD</div>
-            <div style="font-size:0.9rem; margin-top:8px;">Lote completo 🔥</div>
-        </div>
+                <div class="countdown-container">
+                    <div class="countdown-title">⏰ CIERRA LA SUBASTA</div>
+                    <div class="countdown-date">Sábado 10 de Octubre 2026 · 12:00 hrs</div>
+                    <div class="countdown" id="countdown">
+                        <div class="countdown-box"><span id="dias">00</span><small>Días</small></div>
+                        <div class="countdown-box"><span id="horas">00</span><small>Horas</small></div>
+                        <div class="countdown-box"><span id="minutos">00</span><small>Min</small></div>
+                        <div class="countdown-box"><span id="segundos">00</span><small>Seg</small></div>
+                    </div>
+                    <div class="countdown-urgent">🔥 ¡No te quedes sin tu taller! 🔥</div>
+                </div>
 
-        <!-- ⏰ CUENTA REGRESIVA -->
-        <div class="countdown-container">
-            <div class="countdown-title">⏰ CIERRA LA SUBASTA</div>
-            <div class="countdown-date">Sábado 10 de Octubre 2026 · 12:00 hrs</div>
-            <div class="countdown" id="countdown">
-                <div class="countdown-box">
-                    <span id="dias">00</span>
-                    <small>Días</small>
-                </div>
-                <div class="countdown-box">
-                    <span id="horas">00</span>
-                    <small>Horas</small>
-                </div>
-                <div class="countdown-box">
-                    <span id="minutos">00</span>
-                    <small>Min</small>
-                </div>
-                <div class="countdown-box">
-                    <span id="segundos">00</span>
-                    <small>Seg</small>
+                <div class="info-card">
+                    <p>✅ <strong>Todo incluido:</strong> Mesas, estructuras, motores y accesorios.</p>
+                    <p>📍 <strong>Ubicación:</strong> Caracas, Ciudad Tiuna.</p>
+                    <p>❌ <strong>No se vende por separado.</strong></p>
+                    <p>💵 <strong>Solo ofertas superiores a $2.000.</strong></p>
                 </div>
             </div>
-            <div class="countdown-urgent">🔥 ¡No te quedes sin tu taller! 🔥</div>
-        </div>
+        </section>
 
-        <div class="card">
-            <p>✅ <strong>Todo incluido:</strong> Mesas, estructuras, motores y accesorios.</p>
-            <p>📍 <strong>Ubicación:</strong> Caracas, Ciudad Tiuna.</p>
-            <p>❌ <strong>No se vende por separado.</strong></p>
-            <p>💵 <strong>Solo ofertas superiores a $1.000.</strong></p>
-        </div>
-    </section>
+        <!-- PANTALLA 5: CONTACTO -->
+        <section class="pantalla contacto">
+            <h3>📲 Contacta Ahora</h3>
+            <a href="https://wa.me/584266181621?text=Hola%20C%C3%A9sar%2C%20estoy%20interesado%20en%20el%20lote%20de%20maquinaria" class="btn btn-whatsapp" target="_blank" rel="noopener">
+                💬 WhatsApp: 0426-618-1621
+            </a>
+            <a href="mailto:ontivero72@gmail.com" class="btn btn-email">
+                ✉️ ontivero72@gmail.com
+            </a>
+            <div class="footer-note">Subasta · Caracas · 2026</div>
+        </section>
 
-    <!-- PANTALLA 4: CONTACTO -->
-    <section class="contacto">
-        <h3>📲 Contacta Ahora</h3>
-        <a href="https://wa.me/584266181621?text=Hola%20C%C3%A9sar%2C%20estoy%20interesado%20en%20el%20lote%20de%20maquinaria" class="btn btn-whatsapp" target="_blank">
-            💬 WhatsApp: 0426-618-1621
-        </a>
-        <a href="mailto:ontivero72@gmail.com" class="btn btn-email">
-            ✉️ ontivero72@gmail.com
-        </a>
-    </section>
+    </div>
 
-    <!-- SCRIPT DEL CARRUSEL, CUENTA REGRESIVA, VIDEO Y EFECTOS -->
+    <!-- SCRIPT -->
     <script>
         // ===== CUENTA REGRESIVA =====
         const fechaCierre = new Date('2026-10-10T12:00:00-04:00').getTime();
-
         function actualizarCountdown() {
             const ahora = new Date().getTime();
             const diferencia = fechaCierre - ahora;
-
             if (diferencia < 0) {
-                document.getElementById('countdown').innerHTML = 
-                    '<div style="font-size:1.5rem; color:#f39c12; font-weight:900;">⏰ SUBASTA CERRADA</div>';
+                document.getElementById('countdown').innerHTML =
+                    '<div style="font-size:1.3rem; color:#d4af37; font-weight:900; letter-spacing:2px;">⏰ SUBASTA CERRADA</div>';
                 return;
             }
-
-            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
-            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
-
-            document.getElementById('dias').textContent = String(dias).padStart(2, '0');
-            document.getElementById('horas').textContent = String(horas).padStart(2, '0');
-            document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
-            document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+            document.getElementById('dias').textContent = String(Math.floor(diferencia / 86400000)).padStart(2, '0');
+            document.getElementById('horas').textContent = String(Math.floor((diferencia % 86400000) / 3600000)).padStart(2, '0');
+            document.getElementById('minutos').textContent = String(Math.floor((diferencia % 3600000) / 60000)).padStart(2, '0');
+            document.getElementById('segundos').textContent = String(Math.floor((diferencia % 60000) / 1000)).padStart(2, '0');
         }
-
         actualizarCountdown();
         setInterval(actualizarCountdown, 1000);
 
@@ -721,108 +676,83 @@
         const total = slides.children.length;
         const indicators = document.getElementById('indicators');
         let current = 0;
-
         for (let i = 0; i < total; i++) {
             const dot = document.createElement('div');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => goToSlide(i));
             indicators.appendChild(dot);
         }
-
         const dots = document.querySelectorAll('.dot');
-
         function goToSlide(index) {
             current = index;
             slides.style.transform = `translateX(-${current * 100}%)`;
             dots.forEach((d, i) => d.classList.toggle('active', i === current));
         }
+        setInterval(() => goToSlide((current + 1) % total), 3500);
 
-        setInterval(() => {
-            goToSlide((current + 1) % total);
-        }, 3500);
-
-        // ===== GENERADOR DE CHISPAS/LUCECITAS =====
+        // ===== CHISPAS =====
         const sparklesContainer = document.getElementById('sparklesContainer');
-        
         function createSparkle() {
-            const sparkle = document.createElement('div');
-            sparkle.className = 'sparkle';
-            sparkle.style.left = Math.random() * 100 + '%';
-            sparkle.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            sparkle.style.animationDelay = Math.random() * 2 + 's';
-            const size = Math.random() * 6 + 3;
-            sparkle.style.width = size + 'px';
-            sparkle.style.height = size + 'px';
-            sparklesContainer.appendChild(sparkle);
-            setTimeout(() => { sparkle.remove(); }, 7000);
+            const s = document.createElement('div');
+            s.className = 'sparkle';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            s.style.animationDelay = Math.random() * 2 + 's';
+            const size = Math.random() * 5 + 2;
+            s.style.width = size + 'px';
+            s.style.height = size + 'px';
+            sparklesContainer.appendChild(s);
+            setTimeout(() => s.remove(), 7000);
         }
+        setInterval(createSparkle, 250);
+        for (let i = 0; i < 12; i++) setTimeout(createSparkle, i * 120);
 
-        setInterval(createSparkle, 200);
-        for (let i = 0; i < 15; i++) {
-            setTimeout(createSparkle, i * 100);
-        }
-
-        // ===== CONTROL DEL VIDEO LOCAL =====
+        // ===== VIDEO =====
         const videoPlayer = document.getElementById('videoPlayer');
         const videoDots = document.querySelectorAll('.video-dot');
-        const videos = [
-            'video 1.mp4',
-            'video 2.mp4',
-            'video 3.mp4',
-            'video 4.mp4'
-        ];
-
-        // ⚡⚡⚡ VELOCIDAD DEL VIDEO ⚡⚡⚡
-        // 2.0 = velocidad normal x2
-        // 4.0 = el doble de rápido
-        // 6.0 = el triple de rápido (ACTUAL)
+        const videos = ['video 1.mp4', 'video 2.mp4', 'video 3.mp4', 'video 4.mp4'];
         const VELOCIDAD = 6.0;
 
-        // Forzar velocidad al cargar metadata
-        videoPlayer.addEventListener('loadedmetadata', function() {
-            videoPlayer.playbackRate = VELOCIDAD;
-        });
-
-        // Cambiar de video al hacer clic en los indicadores
+        videoPlayer.addEventListener('loadedmetadata', function() { videoPlayer.playbackRate = VELOCIDAD; });
         videoDots.forEach((dot, index) => {
             dot.addEventListener('click', function() {
                 videoDots.forEach(d => d.classList.remove('active'));
                 dot.classList.add('active');
-                
                 videoPlayer.src = videos[index];
                 videoPlayer.load();
                 videoPlayer.playbackRate = VELOCIDAD;
-                videoPlayer.play().catch(function(error) {
-                    console.log('Error al reproducir:', error);
-                });
+                videoPlayer.play().catch(e => console.log(e));
             });
         });
-
-        // Auto-cambiar de video cada 10 segundos
         let currentVideo = 0;
         setInterval(() => {
             currentVideo = (currentVideo + 1) % videos.length;
             videoDots.forEach(d => d.classList.remove('active'));
             videoDots[currentVideo].classList.add('active');
-            
             videoPlayer.src = videos[currentVideo];
             videoPlayer.load();
             videoPlayer.playbackRate = VELOCIDAD;
-            videoPlayer.play().catch(function(error) {
-                console.log('Error al reproducir:', error);
-            });
+            videoPlayer.play().catch(e => console.log(e));
         }, 10000);
+        videoPlayer.addEventListener('play', () => { videoPlayer.playbackRate = VELOCIDAD; });
+        setInterval(() => { if (videoPlayer.playbackRate !== VELOCIDAD) videoPlayer.playbackRate = VELOCIDAD; }, 500);
 
-        // Asegurar que la velocidad se mantenga siempre
-        videoPlayer.addEventListener('play', function() {
-            videoPlayer.playbackRate = VELOCIDAD;
+        // ===== INDICADORES DE PANTALLA (scroll-snap) =====
+        const pantallas = document.getElementById('pantallas');
+        const screenDots = document.querySelectorAll('.screen-dot');
+        const sections = pantallas.querySelectorAll('.pantalla');
+
+        pantallas.addEventListener('scroll', function() {
+            const index = Math.round(pantallas.scrollTop / pantallas.clientHeight);
+            screenDots.forEach((d, i) => d.classList.toggle('active', i === index));
         });
 
-        // Refuerzo: verificar la velocidad cada 500ms
-        setInterval(() => {
-            if (videoPlayer.playbackRate !== VELOCIDAD) {
-                videoPlayer.playbackRate = VELOCIDAD;
-            }
-        }, 500);
+        screenDots.forEach(dot => {
+            dot.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                sections[index].scrollIntoView({ behavior: 'smooth' });
+            });
+        });
     </script>
 
 </body>
